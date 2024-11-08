@@ -2,49 +2,12 @@ import React, { useState } from "react";
 import { Camera, Volume1, Clipboard, LogOut, Play } from "lucide-react";
 import Mainbutn from "./../../../common/buttons/Mainbutn";
 import CustomSlider from "./../../../common/slider/CustomSlider";
-type CustomStyles = {
-  container?: React.CSSProperties;
-  title?: React.CSSProperties;
-  slider?: React.CSSProperties;
-  progress?: React.CSSProperties;
-  thumb?: React.CSSProperties;
-  value?: React.CSSProperties;
-};
+import { useAppSelector } from "../../../../store/hooks";
+
 export default function Settings() {
   const [sliderValue, setSliderValue] = useState(80);
-
+  const { isExpended } = useAppSelector((state) => state.sideBar);
   // Custom styles
-  const customStyles: CustomStyles = {
-    container: {
-      width: "100%",
-      maxWidth: "500px",
-      borderRadius: "10px",
-    },
-    title: {
-      fontSize: "10px",
-      color: "#333",
-      marginBottom: "20px",
-    },
-    slider: {
-      height: "6px",
-      backgroundColor: "#ddd",
-    },
-    progress: {
-      backgroundColor: "#ffd700",
-    },
-    thumb: {
-      width: "24px",
-      height: "24px",
-      backgroundColor: "#fff",
-      border: "3px solid #ffd700",
-      boxShadow: "0 2px 4px rgba(0,0,0,0.2)",
-    },
-    value: {
-      fontSize: "15px",
-      color: "#666",
-      marginTop: "1px",
-    },
-  };
 
   const handleValueChange = (newValue: number) => {
     setSliderValue(newValue);
@@ -52,7 +15,7 @@ export default function Settings() {
     // You can perform additional actions here, like making an API call
   };
   return (
-    <div className='mt-4'>
+    <div className='mt-4 '>
       <div className='flex gap-4 mt-2'>
         <Mainbutn
           pading={"p-1"}
@@ -63,10 +26,16 @@ export default function Settings() {
         >
           <Camera />
         </Mainbutn>
-        <div className='text-gray-700'>تفعيل الكاميرا</div>
+        <div
+          className={
+            isExpended ? "text-gray-700 w-1/2 " : "w-0 overflow-hidden "
+          }
+        >
+          تفعيل الكاميرا
+        </div>
       </div>
-      <div className='flex gap-4 mt-2'>
-        <div className='my-auto'>
+      <div className={"flex gap-4 mt-2"}>
+        <div className='my-auto '>
           <Mainbutn
             pading={"p-1"}
             bg={"bg-white"}
@@ -77,12 +46,17 @@ export default function Settings() {
             <Volume1 />
           </Mainbutn>
         </div>
-        <div>
-          <div className='text-gray-700 '>
+        <div className=''>
+          <div
+            className={
+              isExpended
+                ? "text-gray-700 "
+                : "hidden transition-all duration-300 ease-in-out"
+            }
+          >
             <CustomSlider
               initialValue={sliderValue}
               onValueChange={handleValueChange}
-              customStyles={customStyles}
             />
           </div>
         </div>
@@ -97,7 +71,15 @@ export default function Settings() {
         >
           <Clipboard />
         </Mainbutn>
-        <div className='text-gray-700'>لوحة التحكم الأبوي</div>
+        <div
+          className={
+            isExpended
+              ? "text-gray-700 w-fit"
+              : "w-0 overflow-hidden transition-all duration-300 ease-in-out"
+          }
+        >
+          لوحة التحكم الأبوي
+        </div>
       </div>
       <div className='flex gap-4 mt-2'>
         <Mainbutn
@@ -109,7 +91,15 @@ export default function Settings() {
         >
           <LogOut />
         </Mainbutn>
-        <div className='text-gray-700'>تسجيل الخروج</div>
+        <div
+          className={
+            isExpended
+              ? "text-gray-700  transition-all duration-300 ease-in-out"
+              : "w-0 overflow-hidden transition-all duration-300 ease-in-out "
+          }
+        >
+          تسجيل الخروج
+        </div>
       </div>
       <div className='flex gap-4 mt-2'>
         <Mainbutn
@@ -121,7 +111,9 @@ export default function Settings() {
         >
           <Play />
         </Mainbutn>
-        <div className='text-gray-700'>خذ جولة</div>
+        <div className={isExpended ? "text-gray-700" : "w-0 overflow-hidden "}>
+          خذ جولة
+        </div>
       </div>
     </div>
   );

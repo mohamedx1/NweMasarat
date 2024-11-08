@@ -11,3 +11,11 @@
     color: #FFB802;
     font-size: 10px;
 }
+
+/*
+.volumeSlider {
+    display: block;
+}
+.volumeSliderParent:hover .volumeSlider {
+ display: none !important;
+} */

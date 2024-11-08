@@ -8,6 +8,7 @@ export default function Mainbutn({
   transiton,
   border,
   text,
+  onClick,
 }: {
   children: React.ReactNode;
   pading?: string;
@@ -16,11 +17,13 @@ export default function Mainbutn({
   transiton?: string;
   border?: string;
   text?: string;
+  onClick?: () => void;
 }) {
   console.log(pading);
   return (
     <button
       className={` rounded-lg ${pading} ${bg} ${hvr} ${text} ${border} transition   `}
+      onClick={onClick}
     >
       {children}
     </button>

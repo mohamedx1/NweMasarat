@@ -1,122 +1,92 @@
-import React, { useState, useEffect, useRef } from "react";
-
-interface CustomStyles {
-  container?: React.CSSProperties;
-  title?: React.CSSProperties;
-  slider?: React.CSSProperties;
-  progress?: React.CSSProperties;
-  thumb?: React.CSSProperties;
-  value?: React.CSSProperties;
-}
-
-interface CustomSliderProps {
+import React, { useState, useRef, useCallback, useEffect } from "react";
+import { useAppSelector } from "../../../store/hooks";
+interface RTLVolumeSliderProps {
   initialValue?: number;
   onValueChange?: (value: number) => void;
-  customStyles?: CustomStyles;
+  className?: string;
 }
 
-const CustomSlider: React.FC<CustomSliderProps> = ({
+export default function RTLVolumeSlider({
   initialValue = 80,
   onValueChange,
-  customStyles = {},
-}) => {
+  className = "",
+}: RTLVolumeSliderProps) {
   const [value, setValue] = useState(initialValue);
   const sliderRef = useRef<HTMLDivElement>(null);
+  const isDragging = useRef(false);
 
-  const updateValue = (clientX: number) => {
-    if (sliderRef.current) {
-      const rect = sliderRef.current.getBoundingClientRect();
-      const newValue = Math.round(((clientX - rect.left) / rect.width) * 100);
-      setValue(Math.max(0, Math.min(100, newValue)));
-    }
-  };
+  const updateValue = useCallback(
+    (clientX: number) => {
+      if (sliderRef.current) {
+        const rect = sliderRef.current.getBoundingClientRect();
+        const newValue = Math.round(
+          ((rect.right - clientX) / rect.width) * 100
+        );
+        const clampedValue = Math.max(0, Math.min(100, newValue));
+        setValue(clampedValue);
+        onValueChange?.(clampedValue);
+      }
+    },
+    [onValueChange]
+  );
 
-  const handleMouseDown = (event: React.MouseEvent) => {
-    updateValue(event.clientX);
-    document.addEventListener("mousemove", handleMouseMove);
-    document.addEventListener("mouseup", handleMouseUp);
-  };
+  const handleMouseDown = useCallback(
+    (event: React.MouseEvent) => {
+      isDragging.current = true;
+      updateValue(event.clientX);
+    },
+    [updateValue]
+  );
 
-  const handleMouseMove = (event: MouseEvent) => {
-    updateValue(event.clientX);
-  };
+  const handleMouseMove = useCallback(
+    (event: MouseEvent) => {
+      if (isDragging.current) {
+        updateValue(event.clientX);
+      }
+    },
+    [updateValue]
+  );
 
-  const handleMouseUp = () => {
-    document.removeEventListener("mousemove", handleMouseMove);
-    document.removeEventListener("mouseup", handleMouseUp);
-  };
+  const handleMouseUp = useCallback(() => {
+    isDragging.current = false;
+  }, []);
 
   useEffect(() => {
-    if (onValueChange) {
-      onValueChange(value);
-    }
-  }, [value, onValueChange]);
+    document.addEventListener("mousemove", handleMouseMove);
+    document.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      document.removeEventListener("mousemove", handleMouseMove);
+      document.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, [handleMouseMove, handleMouseUp]);
+  const { isExpended } = useAppSelector((state) => state.sideBar);
 
   return (
-    <div
-      style={{
-        ...customStyles.container,
-      }}
-    >
-      <div
-        style={{
-          ...customStyles.title,
-          textAlign: "left",
-          fontSize: "16px",
-          marginBottom: "10px",
-          direction: "rtl",
-        }}
-      >
-        صوت المساعد الآلي
-      </div>
-      <div
-        ref={sliderRef}
-        style={{
-          ...customStyles.slider,
-          width: "100%",
-          height: "4px",
-          backgroundColor: "#e0e0e0",
-          position: "relative",
-          cursor: "pointer",
-        }}
-        onMouseDown={handleMouseDown}
-      >
-        <div
-          style={{
-            ...customStyles.progress,
-            width: `${value}%`,
-            height: "100%",
-            backgroundColor: "#ffd700",
-            position: "absolute",
-          }}
-        />
-        <div
-          style={{
-            ...customStyles.thumb,
-            width: "20px",
-            height: "20px",
-            borderRadius: "50%",
-            backgroundColor: "white",
-            border: "2px solid #ffd700",
-            position: "absolute",
-            top: "50%",
-            left: `${value}%`,
-            transform: "translate(-50%, -50%)",
-            cursor: "pointer",
-          }}
-        />
-      </div>
-      <div
-        style={{
-          ...customStyles.value,
-          textAlign: "end",
-          color: "#666",
-        }}
-      >
-        {value}%
+    <div className={`w-full max-w-md space-y-2 ${className}`} dir='rtl'>
+      <div className='flex items-center gap-4'>
+        <div className={"flex-1"}>
+          <div className={"text-sm font-medium mb-3 text-gray-700"}>
+            {"صوت المساعد الآلي"}
+          </div>
+          <div
+            ref={sliderRef}
+            className='relative h-1.5 w-full cursor-pointer rounded-full bg-gray-200 '
+            onMouseDown={handleMouseDown}
+          >
+            <div
+              className='absolute right-0 h-full rounded-full bg-secondary-300 '
+              style={{ width: `${value}%` }}
+            />
+            <div
+              className='absolute h-5 w-5 -translate-y-1/2 translate-x-1/2 rounded-full border-2 border-secondary-300 bg-white shadow-md'
+              style={{ right: `${value}%`, top: "50%" }}
+            />
+          </div>
+          <div className='mt-1 text-left text-sm text-gray-600'>
+            {isExpended ? <span>{`${value}%`}</span> : ""}
+          </div>
+        </div>
       </div>
     </div>
   );
-};
-
-export default CustomSlider;
+}

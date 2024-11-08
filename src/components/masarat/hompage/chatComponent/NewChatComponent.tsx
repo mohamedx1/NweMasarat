@@ -16,13 +16,16 @@ export default function ChatComponent() {
   const [inputMessage, setInputMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { token } = useAppSelector((state) => state.login);
-  const { content, message, isLoading, error } = useAppSelector(
-    (state) => state.chatting
-  );
+  const {
+    content, // content الأسألة
+    message, //  الأسألةcontent اللي بتعبر عن main chatدي الرسالة اللي راجعة من ال
+    isLoading,
+    error,
+  } = useAppSelector((state) => state.chatting);
 
   const {
     error: restoreError,
-    messages: initialMessages,
+    messages: initialMessages, //restore chatدي الرسايل اللي راجعة من ال
     isLoading: restoreLoading,
   } = useAppSelector((state) => state.restoreMessages);
 
@@ -75,8 +78,7 @@ export default function ChatComponent() {
           return [
             {
               ...newMessage,
-              id: "some-default-id",
-              lesson: "default-lesson-id",
+              student_answer: "the value will take from user",
             } as Message,
           ];
         }

@@ -4,6 +4,7 @@ import lessonsSlice from './lessons/lesssonsSlice';
 import restoreMainChatSlice from './restoreMainChatt/chattingSlice';
 import loginSlice from './login/loginSlice';
 import mainChatSlice from './mainChat/mainChatSlice';
+import SidebarSlice from './sidebarCollaps/sidebarSlice';
 
 
  const store = configureStore({
@@ -12,7 +13,8 @@ import mainChatSlice from './mainChat/mainChatSlice';
      lessons: lessonsSlice,
      restoreMessages: restoreMainChatSlice,
      login: loginSlice,
-    chatting: mainChatSlice
+     chatting: mainChatSlice,
+    sideBar: SidebarSlice,
   },
  });
 
