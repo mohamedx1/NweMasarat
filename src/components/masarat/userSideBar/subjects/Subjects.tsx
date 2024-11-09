@@ -25,13 +25,19 @@ export default function Subjects() {
         <React.Fragment key={sub.id}>
           {sub.is_active === true ? (
             <div className={"mt-2.5"}>
-              <p className={isExpended ? "text-gray-500" : "hidden"}>
+              <p
+                className={
+                  isExpended
+                    ? "text-gray-500 transition-all duration-300 ease-in-out"
+                    : "hidden"
+                }
+              >
                 {sub.name}
               </p>
               <div
                 className={
                   isExpended
-                    ? "w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700"
+                    ? "w-full bg-gray-200 rounded-full h-2 dark:bg-gray-700 transition-all duration-300 ease-in-out"
                     : "hidden"
                 }
               >
@@ -69,13 +75,19 @@ export default function Subjects() {
         </React.Fragment>
       ))
     ) : (
-      <div className='mt-10 text-center'>لا يوجد دروس لعرضها </div>
+      <div className={`mt-10 text-center ${isExpended ? "" : "hidden"}`}>
+        لا يوجد دروس لعرضها{" "}
+      </div>
     );
 
   return (
     <>
       {error != null ? (
-        <div className='bg-red-300 relative text-center'>
+        <div
+          className={`bg-red-300 relative text-center ${
+            isExpended ? "" : "hidden"
+          }`}
+        >
           <span className='w-2 absolute left-0 top-0 h-full bg-red-500'></span>
           {error}
         </div>

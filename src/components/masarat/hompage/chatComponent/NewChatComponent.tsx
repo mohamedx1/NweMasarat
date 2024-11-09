@@ -98,7 +98,7 @@ export default function ChatComponent() {
   };
 
   return (
-    <div className={`flex flex-col rounded-lg shadow-md h-screen`}>
+    <div className={`flex flex-col rounded-lg shadow-md h-screen `}>
       <div
         className={`flex-1 overflow-y-auto p-4 space-y-4 ${style.noScrollbar} ${style.chatComponent}`}
       >

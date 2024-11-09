@@ -6,13 +6,14 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Home from "./components/masarat/hompage/Home";
 import { Provider } from "react-redux";
 import store from "./store/store";
-import getToken from "./store/login/act/actLogin";
 import { useAppDispatch } from "./store/hooks";
 import OnBording from "./components/masarat/onBording/OnBording";
+import VideoCapture from "./components/common/camerCopmponent/CameraComponent";
 
 function App() {
   const mainRouter = createBrowserRouter([
-    { path: "/", element: <OnBording /> },
+    { path: "/", element: <VideoCapture /> },
+    // { path: "/", element: <OnBording /> },
     {
       path: "/msarat",
       element: <MainLayout />,

@@ -6,7 +6,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const SidebarSlice = createSlice({
   name: 'subjects',
   initialState: {
-    isExpended: true, // Initial state is expanded (not collapsed)
+    isExpended: false, // Initial state is expanded (not collapsed)
   },
   reducers: {
     toggleCollapse(state) {

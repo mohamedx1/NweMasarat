@@ -22,8 +22,8 @@ export default function Lessons({
   return (
     <>
       <>
-        <ul className='transition-all duration-300 ease-in-out'>
-          <li className='mt-2.5 flex justify-between p-2 rounded-lg'>
+        <ul className=''>
+          <li className={`mt-2.5 flex justify-between p-2 rounded-lg `}>
             <p
               className={
                 isExpended
@@ -41,20 +41,18 @@ export default function Lessons({
                     : "bg-gray-500 p-4"
                 }
               >
-                {isExpended
-                  ? "لم يبدأ"
-                  : "transition-all duration-300 ease-in-out"}
+                {isExpended ? "شرح" : ""}
               </span>
             ) : is_active === true ? (
               <span
                 className={
                   isExpended
-                    ? "inline-flex items-center rounded-md bg-primary-300 px-2 py-1 font-medium   text-white text-text-sm"
-                    : " bg-gray-200   p-4 rounded-xl relative transition-all duration-300 ease-in-out"
+                    ? "inline-flex items-center rounded-md bg-primary-300 px-2 py-1 font-medium   text-white text-text-sm "
+                    : " bg-gray-200   p-4 rounded-xl relative "
                 }
               >
                 {isExpended ? (
-                  "لم يبدأ"
+                  "شرح"
                 ) : (
                   <span className='bg-primary-300 p-2.5 rounded-md absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'></span>
                 )}

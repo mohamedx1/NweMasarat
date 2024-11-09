@@ -11,22 +11,28 @@ export default function UserInfo() {
     <div
       className={
         isExpended
-          ? "  flex items-center gap-6  "
+          ? "  flex items-center gap-6 transition-all duration-300 ease-in-out "
           : "gap-0 h-12 w-fit overflow-hidden block "
       }
     >
-      <div className=' p-1 w-14 rounded-full'>
+      <div className='   rounded-full transition-all duration-300 ease-in-out '>
         <AvatarProgress
           progress={82}
           src='/avatar.jpg'
           alt='User'
-          size={isExpended ? 64 : 40}
+          size={isExpended ? 64 : 35}
           strokeWidth={isExpended ? 6 : 3}
           progressColor='#FFA500'
           backgroundColor='#E5E7EB'
         />
       </div>
-      <div className={isExpended ? " flex-1" : "w-0 overflow-hidden"}>
+      <div
+        className={
+          isExpended
+            ? " flex-1"
+            : "w-0 overflow-hidden transition-all duration-300 ease-in-out"
+        }
+      >
         <h2 className='text-text-lg font-semibold '>باسم صباح سعيد</h2>
         <p className='text-sm text-gray-500  '>
           {" "}

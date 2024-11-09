@@ -15,8 +15,8 @@ export default function Settings() {
     // You can perform additional actions here, like making an API call
   };
   return (
-    <div className='mt-4 '>
-      <div className='flex gap-4 mt-2'>
+    <div className={`mt-4 ${isExpended ? "" : "mx-auto"} `}>
+      <div className={`flex  mt-2 ${isExpended ? "gap-4" : "items-center"}`}>
         <Mainbutn
           pading={"p-1"}
           bg={"bg-white"}
@@ -34,7 +34,7 @@ export default function Settings() {
           تفعيل الكاميرا
         </div>
       </div>
-      <div className={"flex gap-4 mt-2"}>
+      <div className={`flex  mt-2 ${isExpended ? "gap-4" : "items-center"}`}>
         <div className='my-auto '>
           <Mainbutn
             pading={"p-1"}
@@ -61,7 +61,7 @@ export default function Settings() {
           </div>
         </div>
       </div>
-      <div className='flex gap-4 mt-2'>
+      <div className={`flex  mt-2 ${isExpended ? "gap-4" : "items-center"}`}>
         <Mainbutn
           pading={"p-1"}
           bg={"bg-white"}
@@ -81,7 +81,7 @@ export default function Settings() {
           لوحة التحكم الأبوي
         </div>
       </div>
-      <div className='flex gap-4 mt-2'>
+      <div className={`flex  mt-2 ${isExpended ? "gap-4" : "items-center"}`}>
         <Mainbutn
           pading={"p-1"}
           bg={"bg-white"}
@@ -101,7 +101,7 @@ export default function Settings() {
           تسجيل الخروج
         </div>
       </div>
-      <div className='flex gap-4 mt-2'>
+      <div className={`flex  mt-2 ${isExpended ? "gap-4" : "items-center"}`}>
         <Mainbutn
           pading={"p-1"}
           bg={"bg-white"}

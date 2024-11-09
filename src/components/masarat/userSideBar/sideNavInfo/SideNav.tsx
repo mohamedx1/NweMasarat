@@ -17,7 +17,7 @@ export default function SideNav() {
       className={
         isExpended
           ? "flex justify-between mb-2  "
-          : "flex flex-col-reverse  mb-4 "
+          : "flex flex-col-reverse justify-center items-center  mb-4 "
       }
     >
       <div className='w-1/2 '>
