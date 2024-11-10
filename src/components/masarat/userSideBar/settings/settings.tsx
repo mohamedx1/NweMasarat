@@ -11,26 +11,19 @@ import Mainbutn from "./../../../common/buttons/Mainbutn";
 import CustomSlider from "./../../../common/slider/CustomSlider";
 import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
 import { toggleModal } from "../../../../store/modalCollaps/ModalCollapseSlice";
+import { changeAcess } from "../../../../store/camerAcess/CamerAcsess";
+
 export default function Settings() {
+  const dispatch = useAppDispatch();
   const [sliderValue, setSliderValue] = useState(80);
   const { isExpended } = useAppSelector((state) => state.sideBar);
+  const { camerIsAcsessable } = useAppSelector((state) => state.cameraAcsess);
 
-  const handleClick = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-      });
-      console.log("Camera access granted.");
-      // You can use the stream (e.g., attach it to a video element)
-      // Stop the stream if needed
-      stream.getTracks().forEach((track) => track.stop());
-    } catch (error: any) {
-      if (error.name === "NotAllowedError") {
-        console.log("Camera access denied.");
-      } else {
-        console.error("Error accessing the camera:", error);
-      }
-    }
+  const handleClickAceccable = async () => {
+    dispatch(changeAcess(true));
+  };
+  const handleClickNotAceccable = async () => {
+    dispatch(changeAcess(false));
   };
   // Custom styles
 
@@ -48,9 +41,9 @@ export default function Settings() {
           hvr={"hover:bg-primary-300 hover:text-white"}
           border={"border-primary-100  border shadow-md"}
           text={"text-primary-300"}
-          onClick={handleClick}
+          onClick={camerIsAcsessable ? handleClickNotAceccable : handleClickAceccable}
         >
-          {<Camera />}
+          {camerIsAcsessable ? <Camera /> : <CameraOff />}
         </Mainbutn>
         <div
           className={

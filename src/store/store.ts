@@ -7,6 +7,7 @@ import mainChatSlice from './mainChat/mainChatSlice';
 import SidebarSlice from './sidebarCollaps/sidebarSlice';
 import  toggleModal  from "./modalCollaps/ModalCollapseSlice";
 import cameraAcsessSlise from './camerAcess/CamerAcsess';
+import sendImageSlice from './sendImage/sendImageSlice';
 
 
  const store = configureStore({
@@ -18,7 +19,8 @@ import cameraAcsessSlise from './camerAcess/CamerAcsess';
      chatting: mainChatSlice,
      sideBar: SidebarSlice,
      togegleModal: toggleModal,
-    cameraAcsess : cameraAcsessSlise,
+     cameraAcsess: cameraAcsessSlise,
+    sendImageSlice:sendImageSlice,
   },
  });
 
