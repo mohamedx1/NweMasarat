@@ -221,7 +221,7 @@ const userResponse =  {
 
 
 
-const getMainChat = createAsyncThunk("mainChat/getMainChat", async (token:string, thunkAPI) => {
+const getMainChat = createAsyncThunk("mainChat/getMainChat", async (token:any, thunkAPI) => {
     const {rejectWithValue} =thunkAPI
     try {
         const response = await axios.post<BootResponse>("http://localhost:8000/chats/send_message/" , userResponse ,{headers:{

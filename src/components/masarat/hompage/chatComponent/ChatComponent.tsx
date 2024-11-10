@@ -20,7 +20,9 @@ export default function ChatComponent() {
   // useEffect(() => {
   //   dispatch(getToken());
   // }, []);
-  const { token } = useAppSelector((state) => state.login);
+  // const { token } = useAppSelector((state) => state.login);
+    const token = localStorage.getItem("token");
+
 
   const [allMessages, setAllMessages] = useState<Message[]>([]);
   const [inputMessage, setInputMessage] = useState("");

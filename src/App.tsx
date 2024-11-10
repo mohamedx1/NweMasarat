@@ -9,8 +9,26 @@ import store from "./store/store";
 import { useAppDispatch } from "./store/hooks";
 import OnBording from "./components/masarat/onBording/OnBording";
 import VideoCapture from "./components/common/camerCopmponent/CameraComponent";
+import axios from "axios";
 
 function App() {
+  const data = {
+    username: "newuser",
+    password: "password123",
+  };
+
+  async function login() {
+    const response = await axios.post<any>(
+      "http://127.0.0.1:8000/users/login/",
+      data
+    );
+    console.log(response);
+    localStorage.setItem("token", response.data.access);
+  }
+
+  useEffect(() => {
+    login();
+  }, []);
   const mainRouter = createBrowserRouter([
     { path: "/", element: <VideoCapture /> },
     // { path: "/", element: <OnBording /> },

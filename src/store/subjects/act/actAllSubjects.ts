@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 type respose = {id:string , code:string , description:string , name:string ,    is_active:boolean , progress_percentage:number ,   academic_year:string    }[]
-const getSubjects = createAsyncThunk("subjects/getSubjects", async (token:string, thunkAPI) => {
+const getSubjects = createAsyncThunk("subjects/getSubjects", async (token:any, thunkAPI) => {
 
   const { rejectWithValue } = thunkAPI
   try {

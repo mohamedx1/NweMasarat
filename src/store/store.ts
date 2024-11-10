@@ -2,9 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 import subjectsReducer from "./subjects/subjectsSlice";
 import lessonsSlice from './lessons/lesssonsSlice';
 import restoreMainChatSlice from './restoreMainChatt/chattingSlice';
-import loginSlice from './login/loginSlice';
+// import loginSlice from './login/loginSlice';
 import mainChatSlice from './mainChat/mainChatSlice';
 import SidebarSlice from './sidebarCollaps/sidebarSlice';
+import  toggleModal  from "./modalCollaps/ModalCollapseSlice";
+import cameraAcsessSlise from './camerAcess/CamerAcsess';
 
 
  const store = configureStore({
@@ -12,9 +14,11 @@ import SidebarSlice from './sidebarCollaps/sidebarSlice';
     subjects: subjectsReducer,
      lessons: lessonsSlice,
      restoreMessages: restoreMainChatSlice,
-     login: loginSlice,
+    //  login: loginSlice,
      chatting: mainChatSlice,
-    sideBar: SidebarSlice,
+     sideBar: SidebarSlice,
+     togegleModal: toggleModal,
+    cameraAcsess : cameraAcsessSlise,
   },
  });
 

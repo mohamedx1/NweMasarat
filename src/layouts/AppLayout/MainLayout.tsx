@@ -2,13 +2,13 @@ import React, { useEffect } from "react";
 
 import { Outlet } from "react-router-dom";
 import UserSideBar from "../../components/masarat/userSideBar/UserSideBar";
-import getToken from "./../../store/login/act/actLogin";
+// import getToken from "./../../store/login/act/actLogin";
 import { useAppDispatch } from "./../../store/hooks";
 const MainLayout = () => {
-  const dispatch = useAppDispatch();
-  useEffect(() => {
-    dispatch(getToken());
-  });
+  // const dispatch = useAppDispatch();
+  // useEffect(() => {
+  //   dispatch(getToken());
+  // });
   return (
     <>
       <div

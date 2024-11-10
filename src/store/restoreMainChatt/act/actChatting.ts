@@ -14,7 +14,7 @@ type Content = { id?: string; question_text?: string; student_answer?:string };
 // const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzMwNjY3NzE0LCJpYXQiOjE3MzA2Mzc3MTQsImp0aSI6ImJhMDg2MDMzZjMwYjQ3NTdhNWIxY2E3OWMxZDg0Njk0IiwidXNlcl9pZCI6Mn0.fYZeQIR6ugWKyzHPW8chSQjdLA9FMTtqSnNZC5pYmNc";
 
 
-const getRestoreChat = createAsyncThunk("restoreMainChat/getRestoreChat", async (token: string, thunkAPI) => {
+const getRestoreChat = createAsyncThunk("restoreMainChat/getRestoreChat", async (token:any, thunkAPI) => {
   console.log(token)
   const {rejectWithValue} =thunkAPI
   try {

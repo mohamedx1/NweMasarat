@@ -1,12 +1,37 @@
 import React, { useState } from "react";
-import { Camera, Volume1, Clipboard, LogOut, Play } from "lucide-react";
+import {
+  Camera,
+  CameraOff,
+  Volume1,
+  Clipboard,
+  LogOut,
+  Play,
+} from "lucide-react";
 import Mainbutn from "./../../../common/buttons/Mainbutn";
 import CustomSlider from "./../../../common/slider/CustomSlider";
-import { useAppSelector } from "../../../../store/hooks";
-
+import { useAppDispatch, useAppSelector } from "../../../../store/hooks";
+import { toggleModal } from "../../../../store/modalCollaps/ModalCollapseSlice";
 export default function Settings() {
   const [sliderValue, setSliderValue] = useState(80);
   const { isExpended } = useAppSelector((state) => state.sideBar);
+
+  const handleClick = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+      console.log("Camera access granted.");
+      // You can use the stream (e.g., attach it to a video element)
+      // Stop the stream if needed
+      stream.getTracks().forEach((track) => track.stop());
+    } catch (error: any) {
+      if (error.name === "NotAllowedError") {
+        console.log("Camera access denied.");
+      } else {
+        console.error("Error accessing the camera:", error);
+      }
+    }
+  };
   // Custom styles
 
   const handleValueChange = (newValue: number) => {
@@ -23,8 +48,9 @@ export default function Settings() {
           hvr={"hover:bg-primary-300 hover:text-white"}
           border={"border-primary-100  border shadow-md"}
           text={"text-primary-300"}
+          onClick={handleClick}
         >
-          <Camera />
+          {<Camera />}
         </Mainbutn>
         <div
           className={

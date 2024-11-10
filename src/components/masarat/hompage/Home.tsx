@@ -4,12 +4,14 @@ import { Panel, PanelGroup, PanelResizeHandle } from "react-resizable-panels";
 import ActivityCopmonent from "./activityComponent/ActivityCopmonent";
 import style from "./home.module.css";
 import NewChatComponent from "./chatComponent/NewChatComponent";
+import Modal from "../../common/modal/Modal";
 
 const { homelayout } = style;
 
 export default function HomeLayout() {
   return (
     <div>
+      {/* <Modal /> */}
       <PanelGroup direction='horizontal' className={homelayout}>
         <Panel defaultSize={80} minSize={40}>
           <NewChatComponent />

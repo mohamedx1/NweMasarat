@@ -1,15 +1,34 @@
 import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import Settings from "./../../masarat/userSideBar/settings/settings";
 
-interface VideoCaptureProps {}
+async function sendCapturedImage({ base64String, token }: any) {
+  const cleanBase64 = base64String.replace("data:image/png;base64,", "");
+  const body = {
+    frame: cleanBase64,
+    subject_id: "5ae529bd-2a81-4011-804c-e13d72192fb9",
+    lesson_id: "20ecc322-fbb4-46ca-abcf-edcfcb34d42f",
+  };
+  const response = await axios.post<any>(
+    "http://127.0.0.1:8000/questions/track-concentration/",
+    body,
+    {
+      headers: { Authorization: `Bearer ${token}`, Accept: "application/json" },
+    }
+  );
+  console.log(response);
+  return response.data;
+}
 
-const VideoCapture: React.FC<VideoCaptureProps> = () => {
+const VideoCapture: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [isRecording, setIsRecording] = useState<boolean>(false);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
-  const [imageData, setImageData] = useState<string | null>(null);
+  const [isVideoReady, setIsVideoReady] = useState<boolean>(false);
 
-  // Request webcam access and start video stream
+  const token = localStorage.getItem("token");
+
   useEffect(() => {
     const startWebcam = async () => {
       try {
@@ -18,24 +37,29 @@ const VideoCapture: React.FC<VideoCaptureProps> = () => {
         });
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
+          videoRef.current.oncanplay = () => {
+            setIsVideoReady(true);
+          };
         }
       } catch (err) {
         console.error("Error accessing webcam:", err);
+        // Stop recording if there's an error (e.g., permission denied)
+        setIsVideoReady(false);
+        stopRecording();
       }
     };
 
     startWebcam();
 
     return () => {
-      if (intervalId) {
-        clearInterval(intervalId); // Clear interval on component unmount
-      }
+      stopRecording();
+      const stream = videoRef.current?.srcObject as MediaStream;
+      stream?.getTracks().forEach((track) => track.stop());
     };
-  }, [intervalId]);
+  }, []);
 
-  // Capture the image from the video
   const captureImage = () => {
-    if (canvasRef.current && videoRef.current) {
+    if (isVideoReady && canvasRef.current && videoRef.current) {
       const context = canvasRef.current.getContext("2d");
       const video = videoRef.current;
       canvasRef.current.width = video.videoWidth;
@@ -47,20 +71,22 @@ const VideoCapture: React.FC<VideoCaptureProps> = () => {
         canvasRef.current.width,
         canvasRef.current.height
       );
-      const image = canvasRef.current.toDataURL("image/png");
-      setImageData(image); // Save the captured image
-      console.log("Captured image:", image);
+      return canvasRef.current.toDataURL("image/png");
     }
+    return null;
   };
 
-  // Start recording and capture image every minute
   const startRecording = () => {
     setIsRecording(true);
-    const id = setInterval(captureImage, 10000); // Capture every 1 minute (60000ms)
+    const id = setInterval(() => {
+      const capturedImage = captureImage();
+      if (capturedImage && token) {
+        sendCapturedImage({ base64String: capturedImage, token });
+      }
+    }, 10000); // Capture every 10 seconds
     setIntervalId(id);
   };
 
-  // Stop recording and clear interval
   const stopRecording = () => {
     setIsRecording(false);
     if (intervalId) {
@@ -69,38 +95,24 @@ const VideoCapture: React.FC<VideoCaptureProps> = () => {
     }
   };
 
+  useEffect(() => {
+    if (isVideoReady) {
+      startRecording();
+    } else {
+      stopRecording();
+    }
+  }, [isVideoReady]);
+
   return (
-    <div>
-      <div>
-        <video
-          ref={videoRef}
-          width='640'
-          height='480'
-          autoPlay
-          muted
-          style={{ border: "1px solid #000" }}
-        />
-      </div>
-      <div>
-        <button
-          onClick={startRecording}
-          disabled={isRecording}
-          className='border-r-gray-950'
-        >
-          Start Recording
-        </button>
-        <button onClick={stopRecording} disabled={!isRecording}>
-          Stop Recording
-        </button>
-      </div>
-      <div>
-        {imageData && (
-          <div>
-            <h3>Captured Image:</h3>
-            <img src={imageData} alt='Captured Screenshot' width='320' />
-          </div>
-        )}
-      </div>
+    <div className='overflow-hidden'>
+      <video
+        className='absolute inset-0 invisible'
+        ref={videoRef}
+        width='1'
+        height='1'
+        autoPlay
+        muted
+      />
       <canvas ref={canvasRef} style={{ display: "none" }}></canvas>
     </div>
   );

@@ -11,7 +11,8 @@ export default function Subjects() {
     (state) => state.subjects
   );
 
-  const { token } = useAppSelector((state) => state.login);
+  // const { token } = useAppSelector((state) => state.login);
+  const token = localStorage.getItem("token");
   const { isExpended } = useAppSelector((state) => state.sideBar);
 
   useEffect(() => {
