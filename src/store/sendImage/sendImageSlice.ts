@@ -8,7 +8,7 @@ import sendCapturedImage from "./act/actSendImage"
 const initialState = {
   userStatues: {
     is_concentrated: 0,
-    emotion: ""
+    emotion: "neutral"
 },
   isLoading: "idle",
   error: null as string | null,

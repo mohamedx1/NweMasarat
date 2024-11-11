@@ -8,6 +8,7 @@ import SidebarSlice from './sidebarCollaps/sidebarSlice';
 import  toggleModal  from "./modalCollaps/ModalCollapseSlice";
 import cameraAcsessSlise from './camerAcess/CamerAcsess';
 import sendImageSlice from './sendImage/sendImageSlice';
+import aiChatSlice from './chattWithAi/chattAiSlice';
 
 
  const store = configureStore({
@@ -20,7 +21,8 @@ import sendImageSlice from './sendImage/sendImageSlice';
      sideBar: SidebarSlice,
      togegleModal: toggleModal,
      cameraAcsess: cameraAcsessSlise,
-    sendImageSlice:sendImageSlice,
+     userState: sendImageSlice,
+    aiResonse:aiChatSlice,
   },
  });
 

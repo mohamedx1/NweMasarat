@@ -30,8 +30,8 @@ function App() {
     login();
   }, []);
   const mainRouter = createBrowserRouter([
-    { path: "/", element: <VideoCapture /> },
-    // { path: "/", element: <OnBording /> },
+    // { path: "/", element: <VideoCapture /> },
+    { path: "/", element: <OnBording /> },
     {
       path: "/msarat",
       element: <MainLayout />,

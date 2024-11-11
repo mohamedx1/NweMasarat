@@ -10,6 +10,7 @@ import VideoCapture from "./../../../common/camerCopmponent/CameraComponent";
 import Modal from "../../../common/modal/Modal";
 import { toggleModal } from "../../../../store/modalCollaps/ModalCollapseSlice";
 import { changeAcess } from "../../../../store/camerAcess/CamerAcsess";
+import { aiChatt } from "../../../../store/chattWithAi/chattAiSlice";
 
 type Message = { id?: string; lesson?: string; student_answer?: string };
 
@@ -24,6 +25,7 @@ export default function ChatComponent() {
   const { content, message, isLoading, error } = useAppSelector(
     (state) => state.chatting
   );
+  // const { aiResponse } = useAppSelector((state) => state.aiResonse);
 
   const {
     error: restoreError,
@@ -32,11 +34,17 @@ export default function ChatComponent() {
   } = useAppSelector((state) => state.restoreMessages);
 
   //-------------------------------------------------------ModalUseEffect------------------------
+  const userResponse = {
+    question: "اشرح قانون نيوتن الثاني",
+  };
+
+  useEffect(() => {
+    dispatch(aiChatt({ userResponse, token }));
+  }, []);
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       dispatch(toggleModal());
-      dispatch(changeAcess(false));
     }, 3000);
     return () => clearTimeout(timeoutId);
   }, [dispatch]);
@@ -170,7 +178,7 @@ export default function ChatComponent() {
       </div>
 
       <form
-        className='p-4 m-4 rounded-2xl bg-gray-50 flex flex-col gap-4'
+        className='p-4 m-4 rounded-2xl  bg-gray-50 flex flex-col gap-4'
         onSubmit={handleSendMessage}
       >
         <div>أكتب اجابتك أو سؤالك وسيقوم المساعد الآلي بالإجابة عنه ...</div>

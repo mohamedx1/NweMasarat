@@ -10,6 +10,7 @@ const VideoCapture: React.FC = () => {
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(null);
   const [isVideoReady, setIsVideoReady] = useState<boolean>(false);
   const { camerIsAcsessable } = useAppSelector((state) => state.cameraAcsess);
+  const [stream, Setstream] = useState<any>();
   const token = localStorage.getItem("token");
   const dispatch = useAppDispatch();
 
@@ -23,6 +24,7 @@ const VideoCapture: React.FC = () => {
           videoRef.current.srcObject = stream;
           videoRef.current.oncanplay = () => setIsVideoReady(true);
         }
+        Setstream(stream);
       } catch (err) {
         console.error("Error accessing webcam:", err);
         setIsVideoReady(false);
@@ -44,7 +46,12 @@ const VideoCapture: React.FC = () => {
   }, [camerIsAcsessable]);
 
   const captureImage = () => {
-    if (isVideoReady && canvasRef.current && videoRef.current) {
+    if (
+      isVideoReady &&
+      canvasRef.current &&
+      videoRef.current &&
+      camerIsAcsessable
+    ) {
       const context = canvasRef.current.getContext("2d");
       const video = videoRef.current;
       canvasRef.current.width = video.videoWidth;
@@ -73,6 +80,14 @@ const VideoCapture: React.FC = () => {
   };
 
   const stopRecording = () => {
+    if (stream) {
+      const tracks = stream.getTracks(); // Get all tracks (audio/video)
+      tracks.forEach((track: any) => track.stop()); // Stop each track
+      Setstream(null); // Optional: S
+    }
+
+    videoRef.current = null;
+    captureImage();
     dispatch(changeAcess(false));
     setIsRecording(false);
     if (intervalId) {
